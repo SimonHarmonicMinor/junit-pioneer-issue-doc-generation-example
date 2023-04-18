@@ -46,9 +46,6 @@ public class SimpleIssueProcessor implements IssueProcessor {
         // [method:testSum()] => testSum
         final var method = split[2].substring(8, split[2].length() - 1).replaceAll("\\(.*\\)", "");
 
-        // org.example.TestExample => [org, example, TestExample]
-        final var splitClassName = className.split("\\.");
-
         // Load test class
         final Class<?> clazz = Thread.currentThread().getContextClassLoader().loadClass(className);
 
@@ -60,7 +57,9 @@ public class SimpleIssueProcessor implements IssueProcessor {
                                          .getMethodInfo()
                                          .getLineNumber(0);
         return Map.of(
-            "testId", splitClassName[splitClassName.length - 1] + "." + method,
+            // TestExample.testSum
+            "testId", lastArrayElement(className.split("\\.")) + "." + method,
+            // org/example/TestExample.java#L11
             "urlPath", className.replace(".", "/") + ".java#L" + methodLineNumber
         );
     }
@@ -72,5 +71,9 @@ public class SimpleIssueProcessor implements IssueProcessor {
             Path.of(pathString, filename),
             content
         );
+    }
+
+    private static <T> T lastArrayElement(T[] arr) {
+        return arr[arr.length - 1];
     }
 }
