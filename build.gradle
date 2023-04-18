@@ -9,6 +9,9 @@ repositories {
     mavenCentral()
 }
 
+sourceCompatibility = JavaVersion.VERSION_17
+targetCompatibility = JavaVersion.VERSION_17
+
 ext {
     set('lombokVersion', '1.18.26')
 }
