@@ -6,6 +6,7 @@
 !gradle-wrapper.jar
 *.sw?
 *~
+public/**
 .#*
 .*.md.html
 .DS_Store
